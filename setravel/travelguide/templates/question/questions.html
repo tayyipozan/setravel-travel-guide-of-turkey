@@ -1,0 +1,117 @@
+{% extends 'layout.html' %}
+
+{% load static %}
+
+{% block content %}
+<style>
+    .radi>input {
+        background-color: #ffff;
+    }
+
+    .main-container {
+        padding: 20vh;
+    }
+
+    .ques {
+        position: relative;
+    }
+</style>
+<div class="main-container">
+    <div class="ques">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-header text-white text-center" style="background-color: #ceae64;">
+                        <h4>Question {{ questions.id }}</h4>
+                    </div>
+                    <div style="text-align:center;" class="card-body">
+                        <label for="">{{ questions.question }}</label><br>
+                        <hr>
+                        <form action="{% url 'question' questions.id %}" method="POST">
+                            {% csrf_token %}
+                            <div class="form-floating radi">
+                                {% if answr == questions.answer.answer1 %}
+                                <input style="width:20px; height:20px; " type="radio" name="answer"
+                                    value="{{ questions.answer.answer1 }}" checked>
+                                {% else %}
+                                <input style="width:20px; height:20px; " type="radio" name="answer"
+                                    value="{{ questions.answer.answer1 }}" required>
+                                {% endif %}
+                                {{questions.answer.answer1 }}
+                                <br> <br>
+                                {% if answr == questions.answer.answer2 %}
+                                <input style="width:20px; height:20px; " type="radio" name="answer"
+                                    value="{{ questions.answer.answer2 }}" checked>
+                                {% else %}
+                                <input style="width:20px; height:20px; " type="radio" name="answer"
+                                    value="{{ questions.answer.answer2 }}" required>
+                                {% endif %}
+                                {{questions.answer.answer2 }}
+                                <br> <br>
+                                {% if questions.id == 1 or questions.id == 2 %}
+                                {% if answr == questions.answer.answer3 %}
+                                <input style="width:20px; height:20px; " type="radio" name="answer"
+                                    value="{{ questions.answer.answer3 }}" checked>
+                                {% else %}
+                                <input style="width:20px; height:20px; " type="radio" name="answer"
+                                    value="{{ questions.answer.answer3 }}" required>
+                                {% endif %}
+                                {{questions.answer.answer3 }}
+                                <br> <br>
+                                {% if answr == questions.answer.answer4 %}
+                                <input style="width:20px; height:20px; " type="radio" name="answer"
+                                    value="{{ questions.answer.answer4 }}" checked>
+                                {% else %}
+                                <input style="width:20px; height:20px; " type="radio" name="answer"
+                                    value="{{ questions.answer.answer4 }}" required>
+                                {% endif %}
+                                {{questions.answer.answer4 }}
+                                <br> <br>
+                                {% if answr == questions.answer.answer5 %}
+                                <input style="width:20px; height:20px; " type="radio" name="answer"
+                                    value="{{ questions.answer.answer5 }}" checked>
+                                {% else %}
+                                <input style="width:20px; height:20px; " type="radio" name="answer"
+                                    value="{{ questions.answer.answer5 }}" required>
+                                {% endif %}
+                                {{questions.answer.answer5 }}
+                                <br> <br>
+                                {% endif %}
+                                {% if questions.id == 1 %}
+                                {% if answr == questions.answer.answer6 %}
+                                <input style="width:20px; height:20px; " type="radio" name="answer"
+                                    value="{{ questions.answer.answer6 }}" checked>
+                                {% else %}
+                                <input style="width:20px; height:20px; " type="radio" name="answer"
+                                    value="{{ questions.answer.answer6 }}" required>
+                                {% endif %}
+                                {{questions.answer.answer6 }}
+                                <br> <br>
+                                {% if answr == questions.answer.answer7 %}
+                                <input style="width:20px; height:20px; " type="radio" name="answer"
+                                    value="{{ questions.answer.answer7 }}" checked>
+                                {% else %}
+                                <input style="width:20px; height:20px; " type="radio" name="answer"
+                                    value="{{ questions.answer.answer7 }}" required>
+                                {% endif %}
+                                {{questions.answer.answer7 }}
+                                <br> <br>
+                                {% endif %}
+                                <input type="hidden" name="qst" value="1">
+                                <input type="submit" value="Answer" class="btn btn-warning btn-block mt-2 submit">
+                            </div>
+                        </form>
+                        {% if questions.id > 1 %}
+                        <form action="{% url 'question' questions.id %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="qst" value="0">
+                            <input type="submit" value="Back" class="btn btn-warning btn-block mt-2 submit">
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

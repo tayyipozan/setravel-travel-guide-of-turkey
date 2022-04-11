@@ -1,0 +1,47 @@
+{% extends 'layout.html' %}
+
+{% load static %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<div class="row">
+    <div class="col-sm-6 mx-auto">
+        <div class="card">
+            <div class="card-header text-white text-center" style="background-color: #ceae64;">
+                <h4>Adding Place</h4>
+            </div>
+            <div class="card-body">
+                <form action="{% url 'adding_place' %}" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <label for="">Place Name</label>
+                    <input type="text" class="form-control" name="placetitle" id="floatingInput" placeholder="Place Name"
+                        required><br>
+                    <label for="">Select Category: </label>
+                    <select name="placecategory">
+                        <option value="relax">Relax</option>
+                        <option value="activity">Activity</option>
+                        <option value="eating">Eating</option>
+                        <option value="hotel">Hotel</option>
+                        <option value="historical">Historical</option>
+                    </select><br><br>
+                    <label for="">Place description</label>
+                    <textarea class="form-control" name="placedesc" id="floatingInput" placeholder="Place description"
+                        cols="30" rows="10" required></textarea><br><br>
+                    <label for="">Place region</label>
+                    <input type="text" class="form-control" name="placeregion" id="floatingInput"
+                        placeholder="Place region" required><br>
+                    <label for="">Place city</label>
+                    <input type="text" class="form-control" name="placecity" id="floatingInput" placeholder="Place city"
+                        required><br>
+                    <label for="">Place card image</label>
+                    <input type="file" class="form-control" name="placecardimage" id="floatingInput"
+                        accept="image/*"><br>
+                    <label for="">Place image</label>
+                    <input type="file" class="form-control" name="placeimage" id="floatingInput" accept="image/*"><br>
+                    <input type="submit" value="Add" class="btn btn-warning btn-block mt-2">
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% endblock %}

@@ -1,0 +1,59 @@
+{% load static %}
+
+
+<div class="three-column-footer-contact-form-container">
+  <footer class="three-column-footer-contact-form" data-equalizer data-equalize-by-row="true">
+    <div class="footer-left" data-equalizer-watch>
+      <div class="baseline">
+        <div class="contact-details">
+          <h6>Contact Details</h6>
+          <p><a href="mailto:setraveltr@outlook.com"><i class="fa fa-envelope-o" aria-hidden="true"></i> Contact Us</a>
+          </p>
+          <p><i class="fa fa-map-marker fa-lg" aria-hidden="true"></i> Umraniye, Istanbul, Turkey</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-center" data-equalizer-watch>
+      <div class="baseline">
+        <div class="newsletter">
+          <h6>Contact Form</h6>
+          <form action="{% url 'mainpage' %}" method="post">
+            {% csrf_token %}
+            <div class="input-group">
+              {% if user.is_authenticated %}
+              <input class="input-group-field main" type="text" name="name" value="{{ user.first_name }} {{ user.last_name }}"
+                disabled>
+              <input class="input-group-field main" type="email" name="email" value="{{ user.email }}" disabled>
+              {% else %}
+              <input class="input-group-field main" type="text" name="name" placeholder="Name">
+              <input class="input-group-field main" type="email" name="email" placeholder="Email address">
+              {% endif %}
+              <br>
+              <textarea class="messag" name="text" placeholder="Message"
+                style="width:50vh; height:10vh; max-height: 13vh;" required></textarea>
+              <input type="submit" value="Submit">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="footer-right" data-equalizer-watch>
+      <div class="baseline">
+        <img class="logo w-50" src="../../static/images/logo.1.png">
+        <h6>Explore</h6>
+        <a href="{% url 'mainpage' %}">Home</a>
+        <br>
+        <a href="{% url 'placelist' %}">Places</a>
+        <br>
+        <a href="{% url 'about' %}">About</a>
+        <br>
+        <div class="social">
+          <i class="fa fa-facebook-square fa-2x" aria-hidden="true"></i>
+          <i class="fa fa-twitter-square fa-2x" aria-hidden="true"></i>
+          <i class="fa fa-google-plus-square fa-2x" aria-hidden="true"></i>
+          <i class="fa fa-linkedin-square fa-2x" aria-hidden="true"></i>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>

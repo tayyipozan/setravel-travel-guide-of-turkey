@@ -1,0 +1,76 @@
+{% extends 'layout.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<head>
+    <title>Place Cards</title>
+    <link rel="stylesheet" href="{% static 'css/cardss.css' %}">
+</head>
+
+<body>
+  <div class="col-md-8 offset-2">
+    <form>
+      <div class="input-group">
+        <input name="search" type="text" placeholder="Search" class="form-control form-control-lg" required/>
+        <div class="input-group-append">
+          <button class="btn btn-dark btn-lg" style="min-width: 100%;" >Search</button>
+        </div>
+      </div>
+    </form>
+  </div>
+{% if places %}
+  <div class="input-group">
+    {% for place in places %}
+    {% for detailplace in detailplaces %}
+    {% if place == detailplace.place %}
+        <a href="javascript:{document.getElementById('{{place.title}}').submit()}" class="cardss" style="
+        {% if 'category' in request.path %}
+        background-image: url(../../../{{ place.cardimage }});
+        {% else %}
+        background-image: url(../../{{ place.cardimage }});
+        {% endif %}
+        ">
+            <div class="inner">
+              <h2 class="title">{{place.title}}</h2>
+              <h6 class="subtitle">{{detailplace.city}}<h6>
+            </div>
+        </a>
+        <form action="{% url 'detailplace' place.title%}" method="post" id="{{place.title}}">
+          {%csrf_token%}
+          <input type="hidden" name="userid" value="{{ user.id }}">
+        </form>
+    {% endif %}
+    {% endfor %}
+    {% endfor %}
+  </div>
+    {% else %}
+    <div class="alert alert-warning">
+        <p>
+            No places
+        </p>
+    </div>
+    {% endif %}
+  <div style="position: absolute; left: 46.7%;">
+    <ul class="pagination" >
+        {% if places.has_previous %}
+        <li class="page-item">
+            <a href="?page=1" class="page-link" style="color : #ceae64;"><< First</a>
+        </li>
+        <li class="page-item">
+            <a href="?page={{places.previous_page_number}}" class="page-link" style="color : #ceae64;">< Previous</a>
+        </li>
+        {% endif %}
+        {% if places.has_next %}
+        <li class="page-item">
+            <a href="?page={{places.next_page_number}}" class="page-link" style="color : #ceae64;">Next ></a>
+        </li>
+        <li class="page-item">
+            <a href="?page={{places.paginator.num_pages}}" class="page-link" style="color : #ceae64;">Last >></a>
+        </li>
+        {% endif %}
+    </ul>
+  </div>
+  </body>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'layout.html' %}
+
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/mainpage.css' %}">
+<br>
+<h3 style="text-align: center; ">Categories</h3>
+<div class="all">
+    <div class="relax"><a href="{% url 'category' 'relax' %}"><img src="../../static/images/lot_100x100 (10).jpg"
+                alt="Relax" class="rounded-circle"></a>
+        <p style="text-align:center ;line-height:25px;">Relax</p>
+    </div>
+    <div class="activity"><a href="{% url 'category' 'activity' %}"><img
+                src="../../static/images/puzzle_100x100 (6).jpg" alt="Activity" class="rounded-circle  "></a>
+        <p style="text-align:center ;line-height:25px;">Activity</p>
+    </div>
+    <div class="eat"><a href="{% url 'category' 'eating' %}"><img src="../../static/images/eat2_100x100 (1).jpg"
+                alt="Eat" class="rounded-circle "></a>
+        <p style="text-align:center ;line-height:25px;">Eating</p>
+    </div>
+    <div class="x1"><a href="{% url 'category' 'hotel' %}"><img src="../../static/images/bed_100x100 (5).jpg"
+                alt="Hotels" class="rounded-circle "></a>
+        <p style="text-align:center ;line-height:25px;">Hotels</p>
+    </div>
+    <div class="x2"><a href="{% url 'category' 'historical' %}"><img src="../../static/images/museum_100x100 (2).jpg"
+                alt="Historical" class="rounded-circle "></a>
+        <p style="text-align:center ;line-height:25px;">Historical Places</p>
+    </div>
+</div>
+<div class="main-container">
+
+    <div class="but">
+        <button class="cl" type="submit" class="button">Click</button>
+        <div class="pic1">
+            <script>
+                var image = ["url(../../static/images/t1.jpg)", "url(../../static/images/t2.jpg)", "url(../../static/images/t3.jpg)", "url(../../static/images/t4.jpg)",
+                    "url(../../static/images/t5.jpg)"]
+                var i = 0;
+                document.querySelector("button").addEventListener("click", function () {
+                    i = i < image.length ? ++i : 0;
+                    document.querySelector("body").style.background = image[i]
+                })
+
+            </script>
+        </div>
+    </div>
+
+</div>
+<form class="search" id="form" role="search" method="get" action="{% url 'placelist' %}">
+    <input class="main" type="search" id="query" name="search" placeholder="Where woud you like to go?"
+        aria-label="Search through site content" required>
+    <button type="submit">
+        <svg viewBox="0 0 1024 1024">
+            <path class="path1"
+                d="M848.471 928l-263.059-263.059c-48.941 36.706-110.118 55.059-177.412 55.059-171.294 0-312-140.706-312-312s140.706-312 312-312c171.294 0 312 140.706 312 312 0 67.294-24.471 128.471-55.059 177.412l263.059 263.059-79.529 79.529zM189.623 408.078c0 121.364 97.091 218.455 218.455 218.455s218.455-97.091 218.455-218.455c0-121.364-103.159-218.455-218.455-218.455-121.364 0-218.455 97.091-218.455 218.455z">
+            </path>
+        </svg>
+    </button>
+</form>
+
+{% endblock %}

@@ -1,0 +1,10 @@
+.radi > input {
+  background-color: #ffff;
+}
+
+.main-container {
+  padding: 50vh;
+}
+.ques {
+  position: relative;
+}

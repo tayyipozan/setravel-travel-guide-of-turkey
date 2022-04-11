@@ -1,0 +1,46 @@
+{% extends 'layout.html' %}
+
+{% load static %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<div class="row">
+    <div class="col-sm-6">
+        <div class="card">
+            <div class="card-header text-white text-center" style="background-color: #ceae64;">
+                <h4>User Information</h4>
+            </div>
+            <div class="card-body">
+                <form action="{% url 'upinfo' %}" method="POST" >
+                    {% csrf_token %}
+                    <div class="form-floating">
+                        {{ form1.as_p }}
+                        <input type="hidden" name="userid" value="{{ user.id }}">
+                        <input type="submit" value="Update informations" class="btn btn-warning btn-block mt-2">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="card">
+            <div class="card-header text-white text-center" style="background-color: #ceae64;">
+                <h4>Change Password</h4>
+            </div>
+            <div class="card-body">
+                <form action="{% url 'uppass' %}" method="POST" >
+                    {% csrf_token %}
+                    <div class="form-floating">
+                        {{ form2.as_p }}
+                        <input type="hidden" name="userid" value="{{ user.id }}">
+                        <input type="submit" value="Update password" class="btn btn-warning btn-block mt-2">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<meta http-equiv="refresh" content="5;URL={% url 'login' %}">
+{% endif %}
+{% endblock %}

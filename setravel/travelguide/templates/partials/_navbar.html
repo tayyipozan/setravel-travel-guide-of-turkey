@@ -1,0 +1,116 @@
+{% load static %}
+<style>
+    ul li a.active{ 
+        background-color: #fff;
+        color:#ceae64;
+      }
+</style>
+<header>
+    <link rel="stylesheet" href="{% static 'css/mainpage.css' %}">
+    <div class="navbar navbar-expand-sm ">
+        <div class="container">
+            <div class="logo">
+                <ul class="navbar-nav ">
+                    <li class="nav-item">
+                        <img src="{% static 'images/logo.1.png' %}" class="w-75">
+                    </li>
+                </ul>
+            </div>
+            <ul class="navbar-nav ">
+                <li class="nav-item">
+                    <a href="{% url 'mainpage' %}" class="
+                    {% if 'mainpage' in request.path %}
+                    active
+                    {% endif %}
+                    ">Home</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ">
+                <li class="nav-item">
+                    <a href="{% url 'question' 1 %}" class="
+                    {% if 'question' in request.path %}
+                    active
+                    {% endif %}
+                ">Questions</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ">
+                <li class="nav-item">
+                    <a href="{% url 'placelist' %}" class="
+                    {% if 'places' in request.path %}
+                    active
+                    {% endif %}
+                    ">Places</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ">
+                <li class="nav-item">
+                    <a href="{% url 'about' %}" class="
+                    {% if 'about' in request.path %}
+                        active
+                    {% endif %}
+                ">About</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav categories">
+                {% if user.is_authenticated %}
+                <li class="nav-item dropdown">
+                    <a class="dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false">Welcome, {{ user.username }}</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="nav-item" href="javascript:{document.getElementById('userinfo').submit()}" class="
+                                    {% if 'userinfo' in request.path %}
+                                        active
+                                    {% endif %}
+                                ">User_Information</a>
+                        </li>
+                        {% if user.is_superuser %}
+                        <li><a class="nav-item" href="javascript:{document.getElementById('adding_place').submit()}"
+                                class="
+                                    {% if 'adding_place' in request.path %}
+                                        active
+                                    {% endif %}
+                                ">adding_place</a>
+                        </li>
+                        {% endif %}
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="nav-item" href="javascript:{document.getElementById('logout').submit()}">Exit</a>
+                        </li>
+
+                        <form action="{% url 'userinfo' %}" method="post" id="userinfo">
+                            {%csrf_token%}
+                            <input type="hidden" name="userid" value="{{ user.id }}">
+                        </form>
+                        <form action="{% url 'adding_place' %}" method="post" id="adding_place">
+                            {%csrf_token%}
+                            <input type="hidden" name="userid" value="{{ user.id }}">
+                        </form>
+                        <form action="{% url 'logout' %}" method="post" id="logout">
+                            {%csrf_token%}
+                            <input type="hidden" name="userid" value="{{ user.id }}">
+                        </form>
+                        <form action="{% url 'question' 1 %}" method="post" id="question">
+                            {%csrf_token%}
+                            <input type="hidden" name="userid" value="{{ user.id }}">
+                        </form>
+                        <form action="{% url 'placelist'%}" method="post" id="placelist">
+                            {%csrf_token%}
+                            <input type="hidden" name="userid" value="{{ user.id }}">
+                        </form>
+                    </ul>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a href="{% url 'login' %}" class="
+                                {% if 'login' in request.path %}
+                                    active
+                                {% endif %}
+                            ">Login</a>
+                </li>
+                {% endif %}
+            </ul>
+
+        </div>
+    </div>
+</header>

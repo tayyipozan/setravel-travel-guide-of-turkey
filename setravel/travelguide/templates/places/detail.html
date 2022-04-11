@@ -1,0 +1,169 @@
+{% extends 'layout.html' %}
+
+{% load static %}
+
+{% block content %}
+<style>
+    .rating {
+        display: flex;
+        flex-direction: row-reverse;
+        position: relative;
+        float: left;
+        margin-left: 10px;
+    }
+    .rating>input {
+        display: none
+    }
+    .rating>label {
+        width: 19px;
+        font-size: 25px;
+        color: #ff0000;
+        cursor: pointer
+    }
+    .rating>label::before {
+        content: "\2605";
+        position: absolute;
+        opacity: 0
+    }
+    .rating>label:hover:before,
+    .rating>label:hover~label:before {
+        opacity: 1 !important
+    }
+    .rating>input:checked~label:before {
+        opacity: 1
+    }
+    .rating:hover>input:checked~label:before {
+        opacity: 0
+    }
+    .ratting {
+        display: flex;
+        flex-direction: row-reverse;
+        position: relative;
+        float: left;
+        margin-left: 10px;
+    }
+    .ratting>input {
+        display: none
+    }
+    .ratting>label {
+        width: 19px;
+        font-size: 25px;
+        color: #ff0000;
+    }
+    .ratting>label::before {
+        content: "\2605";
+        position: absolute;
+        opacity: 1
+    }
+</style>
+
+<div class="card m-4">
+    <div class="row no-gutters">
+        <div class="col-md-4">
+            <img src="/{{ image.image }}" height="550" width="200" class="card-img" alt="...">
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h1>{{placedetail.name}}</h1>
+                <hr>
+                <p class="card-text">{{placedetail.description}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+<label style="position:relative; left: 5%; width: 90%; margin-top: 20px; font-size: 40px; font-weight: bold">Comments</label>
+<div style="width: 150vh; margin: 0 40px;">
+<div class="card p-4" style=" text-align:center; margin: 0 40px; ">
+    <label > Rating: {{ average }}   | {{ commentscount }} comments</label>
+</div>
+<div class="card">
+    <div class="m-2">
+{% if user.is_authenticated %}
+{% if usercomment %}
+<form action="{% url 'detailplace' placedetail.name %}" method="post">
+    {% csrf_token %}
+    <input type="submit" name="delete" value="Delete" style="float: right; margin-right: 90px; " onClick="document.location.reload(true)">
+    <h3 class="m-2">Edit Your Comment</h3>  
+    <input type="hidden" name="userid" value="{{ user.id }}">
+</form>
+<form action="{% url 'detailplace' placedetail.name %}" method="post" id="commentform" style="margin-left: 40px;">
+    {% csrf_token %}
+    <label style="margin-left: 5px; float: left; padding-top: 5px;">Rating: </label>
+    {% if usercomment.rating == 5 %}
+    <div class="rating"> <input type="radio" name="rating" value="5" id="5" checked><label for="5">☆</label> <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label> <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label> <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label> <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label> </div>
+    {% endif %}
+    {% if usercomment.rating == 4 %}
+    <div class="rating"> <input type="radio" name="rating" value="5" id="5" ><label for="5">☆</label> <input type="radio" name="rating" value="4" id="4" checked><label for="4">☆</label> <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label> <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label> <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label> </div>
+    {% endif %}
+    {% if usercomment.rating == 3 %}
+    <div class="rating"> <input type="radio" name="rating" value="5" id="5" ><label for="5">☆</label> <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label> <input type="radio" name="rating" value="3" id="3" checked><label for="3">☆</label> <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label> <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label> </div>
+    {% endif %}
+    {% if usercomment.rating == 2 %}
+    <div class="rating"> <input type="radio" name="rating" value="5" id="5" ><label for="5">☆</label> <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label> <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label> <input type="radio" name="rating" value="2" id="2" checked><label for="2">☆</label> <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label> </div>
+    {% endif %}
+    {% if usercomment.rating == 1 %}
+    <div class="rating"> <input type="radio" name="rating" value="5" id="5" ><label for="5">☆</label> <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label> <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label> <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label> <input type="radio" name="rating" value="1" id="1" checked><label for="1">☆</label> </div>
+    {% endif %}
+    <br>
+    <textarea type="text" name="comment" style="margin: 5px; width: 90%; height: 90%; max-height: 100px;" required>{{ usercomment.comment }}</textarea>
+    <br>
+    <input type="hidden" name="userid" value="{{ user.id }}">
+    <input type="submit" value="Send" style="margin: 5px;">
+</form>
+{% else %}
+<h3 class="m-2">Send Your Comment</h3>
+    <form action="{% url 'detailplace' placedetail.name %}" method="post" style="margin-left: 40px;">
+        {% csrf_token %}
+        <label style="margin-left: 5px; float: left; padding-top: 5px;">Rating: </label>
+        <div class="rating"> <input type="radio" name="rating" value="5" id="5" required><label for="5">☆</label> <input type="radio" name="rating" value="4" id="4" required><label for="4">☆</label> <input type="radio" name="rating" value="3" id="3" required><label for="3">☆</label> <input type="radio" name="rating" value="2" id="2" required><label for="2">☆</label> <input type="radio" name="rating" value="1" id="1" required><label for="1">☆</label> </div>
+        <br>
+        <textarea name="comment" placeholder="Write your Comment here." style="margin: 5px; width: 90%; height: 90%; max-height: 100px;" required></textarea>
+        <br>
+        <input type="hidden" name="userid" value="{{ user.id }}">
+        <input type="submit" value="Send" style="margin: 5px;">
+    </form>
+{% endif %}
+</div>
+{% else %}
+<h3>Please login to send a comment.</h3>
+{% endif %}
+{% if comments %}
+{% for comment in comments %}
+<hr>
+<div>
+    <div class="card m-4">
+            <div class="card-body">
+                <label style="margin-left: 5px; float: left; padding-top: 5px;">Rating: </label>
+                {% if comment.rating == 5 %}
+                <div class="ratting"><label for="">☆</label><label for="">☆</label><label for="">☆</label><label for="">☆</label><label for="">☆</label></div> 
+                {% endif %}
+                {% if comment.rating == 4 %}
+                <div class="ratting"><label for="">☆</label><label for="">☆</label><label for="">☆</label><label for="">☆</label></div> 
+                {% endif %}
+                {% if comment.rating == 3 %}
+                <div class="ratting"><label for="">☆</label><label for="">☆</label><label for="">☆</label>     </div>       
+                {% endif %}
+                {% if comment.rating == 2 %}
+                <div class="ratting"><label for="">☆</label><label for="">☆</label>       </div>        
+                {% endif %}
+                {% if comment.rating == 1 %}
+                <div class="ratting"><label for="">☆</label>  </div>              
+                {% endif %}
+                <br>
+                <hr>
+                <textarea type="text" class="card-text"  style="margin: 5px; width: 92%; height: 90%; max-height: 100px;" disabled>{{comment.comment}}</textarea>
+            </div>
+        <div class="card-footer">
+            <small class="text-muted" style="text-align:left;">Commented by: {{comment.user.username}}</small>
+            <small class="text-muted" style="float: right;">{{comment.created_date | timesince}} ago</small>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% else %}
+<hr>
+<p style="text-align: center; margin-bottom: 20px;">No Comments</p>
+{% endif %}
+</div>
+</div>
+{% endblock %}

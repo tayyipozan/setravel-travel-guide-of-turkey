@@ -1,0 +1,55 @@
+{% extends 'layout.html' %}
+
+{% load static %}
+
+{% block content %}
+{% if user.is_authenticated %}
+{% if favorites %}
+{% for favplace in favorites %}
+<div class="row">
+    <div class="col-md-10 m-3">
+        <div class="card mb-3">
+            <div class="row">
+                <div class="col md-3">
+                    <img class="card-img" src="/{{ favplace.place.cardimage }}" alt="">
+                </div>
+                <div class="col-md-9">
+                    <div style="text-align: right;">
+                        <form action="{% url 'adding_favplace' %}" method="post">
+                            {% csrf_token %}
+                            <input type="submit" class="btn" style="background-color: white;" value="O">
+                            <input type="hidden" name="favplace" value="{{favplace.place.id}}">
+                            <input type="hidden" name="user" value="{{favplace.user.id}}">
+                        </form>
+                    </div>
+                    <div class="card-boddy">
+                        <div class="card-title mt-3 mb-4">
+                            <h3><a href="{% url 'detailplace' favplace.place.title %}">{{favplace.place.title}}</a></h3>
+                        </div>
+                        <p class="card-text">
+                            {{favplace.movie.description}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer" style="text-align:right;">
+                <small class="text-muted">{{favplace.place.created_date | timesince}} ago</small>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="alert alert-warning">
+            <p>
+                No places
+            </p>
+        </div>
+        <style>
+            .main-container {
+                padding: 25vh;
+              }
+        </style>
+        {% endif %}
+    </div>
+</div>
+{% endif %}
+{% endblock %}

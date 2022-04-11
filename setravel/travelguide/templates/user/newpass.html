@@ -1,0 +1,76 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Create Account</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="{% static 'css/logreg.css' %}">
+
+</head>
+
+<body class="img js-fullheight" style="background-image: url(../../static/bg.jpg);">
+    <section class="ftco-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6 text-center mb-5">
+                    <h2 class="heading-section"></h2>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-4">
+                    <div class="login-wrap p-0">
+                        {% if key %}
+                        {% include 'partials/_alert.html'%}
+                        <h3 class="mb-4 text-center">New Password</h3>
+                        <form action="{% url 'resetpassword' %}" class="signin-form" method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="new password" name="newpassword" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="new password" name="renewpassword" required>
+                                <input type="hidden" name="step" value="4">
+                                <input type="hidden" name="question" value="{{ question }}">
+                                <input type="hidden" name="email" value="{{ email }}">
+                            </div>
+
+                            <div class="form-group">
+                                <button type="submit" class="form-control btn btn-primary submit px-3">New password</button>
+                            </div>
+                            {% else %}
+                            <form action="../user/reset.html" class="signin-form"> 
+                                {% csrf_token %}
+                                <div class="form-group text-center">
+                                    <label>Please enter your email on the reset page.</label>
+                                    <input type="hidden" name="step" value="1">
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="form-control btn btn-primary submit px-3">Reset Page</button>
+                                </div>
+                            </form>
+                            {% endif %}
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="{% static 'js/logreg.js' %}"></script>    
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/popper.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+
+</body>
+
+</html>
